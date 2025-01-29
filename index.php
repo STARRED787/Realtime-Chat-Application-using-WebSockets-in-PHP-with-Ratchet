@@ -25,7 +25,7 @@
 
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <!-- Sign-Up Form -->
+            <!-- Join Form -->
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
                 <input type="text" id="name" class="form-control" placeholder="Enter your name">
