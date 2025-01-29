@@ -7,9 +7,10 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         crossorigin="anonymous">
+    <!-- Toastr CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
 
-
-    <title>Realtime Chat</title>
+    <title>Realtime Chat Sign-Up</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -27,71 +28,62 @@
 </head>
 
 <body class="container py-4">
-    <h2 class="text-center mb-4">Realtime Chat</h2>
+    <h2 class="text-center mb-4">Realtime Chat Sign-Up</h2>
 
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div id="chat-box" class="mb-3 p-3"></div>
-
-            <div class="input-group mb-3">
-                <input type="text" id="username" class="form-control" placeholder="Enter your username">
-                <button class="btn btn-primary" onclick="joinChat()">Join</button>
+            <!-- Sign-Up Form -->
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" id="name" class="form-control" placeholder="Enter your name">
             </div>
 
-            <div class="input-group mb-3">
-                <input type="text" id="message" class="form-control" placeholder="Type a message">
-                <button class="btn btn-success" onclick="sendMessage()">Send</button>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" class="form-control" placeholder="Enter your email">
             </div>
 
-            <h3 class="mt-4">Online Users:</h3>
-            <ul id="users" class="list-group"></ul>
+            <button class="btn btn-primary" onclick="signup()">Sign Up</button>
+
+
         </div>
     </div>
-
-    <script>
-        let ws, username;
-
-        function joinChat() {
-            username = document.getElementById('username').value;
-            if (!username) {
-                alert("Enter a username!");
-                return;
-            }
-
-            ws = new WebSocket("ws://127.0.0.1:8080");
-
-            ws.onopen = function () {
-                ws.send(JSON.stringify({ type: "join", username: username }));
-            };
-
-            ws.onmessage = function (event) {
-                let data = JSON.parse(event.data);
-
-                if (data.message) {
-                    let chatBox = document.getElementById('chat-box');
-                    chatBox.innerHTML += `<p><strong>${data.from}:</strong> ${data.message}</p>`;
-                    chatBox.scrollTop = chatBox.scrollHeight;
-                }
-
-                let usersList = document.getElementById('users');
-                usersList.innerHTML = "";
-                data.users.forEach(user => {
-                    usersList.innerHTML += `<li class='list-group-item'>${user}</li>`;
-                });
-            };
-        }
-
-        function sendMessage() {
-            let message = document.getElementById('message').value;
-            if (!message) return;
-            ws.send(JSON.stringify({ type: "message", message: message }));
-            document.getElementById('message').value = "";
-        }
-    </script>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
+
+    <!-- Load jQuery first -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Toastr JS (make sure it's loaded after jQuery and before custom scripts) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+        function signup() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+
+            // Validate form fields
+            if (!name || !email) {
+                toastr.error("Both Name and Email are required!");
+                return;
+            }
+
+            // Validate email format
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                toastr.error("Please enter a valid email!");
+                return;
+            }
+
+            // If validation passes
+            toastr.success("Sign-Up Successful! Redirecting to chat...");
+            setTimeout(function () {
+                window.location.href = "chat.php?name=" + encodeURIComponent(name) + "&email=" + encodeURIComponent(email);
+            }, 2000);  // Delay before redirecting
+        }
+    </script>
 
 </body>
 
