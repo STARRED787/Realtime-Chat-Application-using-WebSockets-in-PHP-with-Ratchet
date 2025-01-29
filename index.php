@@ -34,7 +34,7 @@
                 <input type="email" id="email" class="form-control" placeholder="Enter your email">
             </div>
 
-            <button class="btn btn-primary" onclick="signin()">Sign In</button>
+            <button class="btn btn-primary" onclick="join()">Join</button>
         </div>
     </div>
 
@@ -57,7 +57,7 @@
             });
         }
 
-        function signin() {
+        function join() {
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
 
