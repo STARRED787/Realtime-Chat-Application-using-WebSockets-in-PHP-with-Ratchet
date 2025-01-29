@@ -109,7 +109,7 @@
             ws.send(JSON.stringify({ type: "message", message: message }));
 
             // Play the sound after the message has been sent
-            playSound('audio/success.mp3');
+            playSound('audio/send.mp3');
 
             // Clear the input field after sending the message
             document.getElementById('message').value = "";
