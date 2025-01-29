@@ -112,7 +112,6 @@
             // Get the current chat box content
             let chatBox = document.getElementById('chat-box');
 
-
             // Store the updated chat messages in localStorage
             storeMessages(chatBox.innerHTML);
 
