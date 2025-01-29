@@ -10,25 +10,16 @@
     <!-- Toastr CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
 
-    <title>Realtime Chat Sign-Up</title>
+    <title>Realtime Chat Sign-In</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-        }
-
-        #chat-box {
-            height: 300px;
-            overflow-y: auto;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background: #f8f9fa;
         }
     </style>
 </head>
 
 <body class="container py-4">
-    <h2 class="text-center mb-4">Realtime Chat Sign-Up</h2>
+    <h2 class="text-center mb-4">Realtime Chat Sign-In</h2>
 
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -43,9 +34,7 @@
                 <input type="email" id="email" class="form-control" placeholder="Enter your email">
             </div>
 
-            <button class="btn btn-primary" onclick="signup()">Sign Up</button>
-
-
+            <button class="btn btn-primary" onclick="signin()">Sign In</button>
         </div>
     </div>
 
@@ -56,17 +45,26 @@
     <!-- Load jQuery first -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- Toastr JS (make sure it's loaded after jQuery and before custom scripts) -->
+    <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <script>
-        function signup() {
+        // Function to play sound notification
+        function playSound(url) {
+            var audio = new Audio(url);
+            audio.play().catch(function (error) {
+                console.error("Error playing audio:", error);
+            });
+        }
+
+        function signin() {
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
 
             // Validate form fields
             if (!name || !email) {
                 toastr.error("Both Name and Email are required!");
+                playSound('error.mp3'); // Play error sound
                 return;
             }
 
@@ -74,11 +72,13 @@
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailPattern.test(email)) {
                 toastr.error("Please enter a valid email!");
+                playSound('error.mp3'); // Play error sound
                 return;
             }
 
             // If validation passes
             toastr.success("Sign-Up Successful! Redirecting to chat...");
+            playSound('/audio/success.mp3'); // Play success sound
             setTimeout(function () {
                 window.location.href = "chat.php?name=" + encodeURIComponent(name) + "&email=" + encodeURIComponent(email);
             }, 2000);  // Delay before redirecting

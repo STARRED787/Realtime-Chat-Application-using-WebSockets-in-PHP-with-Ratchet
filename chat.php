@@ -42,12 +42,24 @@
             <h3 class="mt-4">Online Users:</h3>
             <ul id="users" class="list-group"></ul>
 
-            <!-- Button to go back to Sign-Up page -->
+            <!-- Button to go back to Sign-In page -->
             <div class="text-center mt-3">
-                <a href="index.php" class="btn btn-secondary">Back to Sign-Up</a>
+                <a href="index.php" class="btn btn-secondary" id="back-to-signup">Back to Sign-In</a>
             </div>
         </div>
     </div>
+    <script>
+        document.getElementById('back-to-signup').addEventListener('click', function () {
+            // When user clicks back, clear session variables
+            <?php session_start(); ?>
+            <?php
+            // Unset session variables (clear user credentials)
+            session_unset();
+            session_destroy();
+            ?>
+        });
+    </script>
+
 
     <script>
         let ws, username;
