@@ -60,7 +60,6 @@
         });
     </script>
 
-
     <script>
         let ws, username;
         const urlParams = new URLSearchParams(window.location.search);
@@ -93,12 +92,27 @@
             });
         };
 
+        function playSound(url) {
+            var audio = new Audio(url);
+            audio.play().catch(function (error) {
+                console.error("Error playing audio:", error);
+            });
+        }
+
         function sendMessage() {
             let message = document.getElementById('message').value;
             if (!message) return;
+
+            // Send the message first
             ws.send(JSON.stringify({ type: "message", message: message }));
+
+            // Play the sound after the message has been sent
+            playSound('audio/success.mp3');
+
+            // Clear the input field after sending the message
             document.getElementById('message').value = "";
         }
+
     </script>
 
     <!-- Bootstrap JS -->

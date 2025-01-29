@@ -10,7 +10,7 @@
     <!-- Toastr CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
 
-    <title>Realtime Chat Sign-In</title>
+    <title>Realtime Chat</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -19,7 +19,7 @@
 </head>
 
 <body class="container py-4">
-    <h2 class="text-center mb-4">Realtime Chat Sign-In</h2>
+    <h2 class="text-center mb-4">Realtime Chat</h2>
 
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -64,7 +64,7 @@
             // Validate form fields
             if (!name || !email) {
                 toastr.error("Both Name and Email are required!");
-                playSound('error.mp3'); // Play error sound
+                playSound('audio/error.mp3'); // Play error sound
                 return;
             }
 
@@ -72,13 +72,13 @@
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailPattern.test(email)) {
                 toastr.error("Please enter a valid email!");
-                playSound('error.mp3'); // Play error sound
+                playSound('audio/error.mp3'); // Play error sound
                 return;
             }
 
             // If validation passes
             toastr.success("Sign-Up Successful! Redirecting to chat...");
-            playSound('/audio/success.mp3'); // Play success sound
+            playSound('audio/success.mp3'); // Play success sound
             setTimeout(function () {
                 window.location.href = "chat.php?name=" + encodeURIComponent(name) + "&email=" + encodeURIComponent(email);
             }, 2000);  // Delay before redirecting
