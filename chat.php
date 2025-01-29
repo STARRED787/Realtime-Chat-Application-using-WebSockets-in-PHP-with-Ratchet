@@ -101,12 +101,20 @@
             });
         }
 
+        // Function to send messages without duplicating on page load
         function sendMessage() {
             let message = document.getElementById('message').value;
             if (!message) return;
 
-            // Send the message first
+            // Send the message to the WebSocket server
             ws.send(JSON.stringify({ type: "message", message: message }));
+
+            // Get the current chat box content
+            let chatBox = document.getElementById('chat-box');
+
+
+            // Store the updated chat messages in localStorage
+            storeMessages(chatBox.innerHTML);
 
             // Play the sound after the message has been sent
             playSound('audio/send.mp3');
@@ -114,6 +122,22 @@
             // Clear the input field after sending the message
             document.getElementById('message').value = "";
         }
+
+        // Function to store messages in localStorage
+        function storeMessages(messages) {
+            localStorage.setItem('chatMessages', messages);
+        }
+
+        // On page load, render stored messages (without duplicating)
+        window.onload = function () {
+            // Check if there are stored messages in localStorage
+            let storedMessages = localStorage.getItem('chatMessages');
+
+            if (storedMessages) {
+                // If there are stored messages, display them in the chat box
+                document.getElementById('chat-box').innerHTML = storedMessages;
+            }
+        };
 
     </script>
 
